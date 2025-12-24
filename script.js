@@ -62,7 +62,18 @@ function updateSummary() { //update the summary section with total values
 
     totalExpense.textContent = totalExpenses.toFixed(2);
     totalIncome.textContent = totalIncomes.toFixed(2);
-    balance.textContent = (totalIncomes - totalExpenses).toFixed(2);
+    
+    const currentBalance = totalIncomes - totalExpenses;
+    balance.textContent = currentBalance.toFixed(2);
+
+    //apply balance class
+    if (currentBalance >= 0){
+        balance.classList.remove('negative');
+        balance.classList.add('positive');
+    } else {
+        balance.classList.remove('positive');
+        balance.classList.add('negative');
+    }
 }
 
 function clearInputs() {

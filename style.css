@@ -141,3 +141,13 @@ td button:hover {
 .hidden {
     display: none;
 }
+
+/* balance visuals */
+
+.positive {
+    color: #28a745;
+}
+
+.negative {
+    color: #dc3545;
+}
