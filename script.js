@@ -108,7 +108,9 @@ function loadTransactions() { //retrieve saved transactions from local storage
     updateSummary();
 }
 
-window.addEventListener('load', loadTransactions);
+window.addEventListener('load', function() {
+    expenseInput.focus() //focus on description field
+});
 
 function clearInputs() {
     expenseInput.value = '';
