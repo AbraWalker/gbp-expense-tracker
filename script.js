@@ -20,6 +20,7 @@ expenseForm.addEventListener('submit', function(event) {
     }
     
     addTransaction(description, amount, category); //add new transaction to table
+    showNotification('Transaction added successfully.');
     updateSummary(); //updates totals
     clearInputs(); //clears form
 
@@ -68,4 +69,14 @@ function clearInputs() {
     expenseInput.value = '';
     amountInput.value = '';
     categoryInput.value = 'Expense';
+}
+
+function showNotification(message) {
+    const notification = document.getElementById('notification');
+    notification.textContent = message;
+    notification.classList.remove('hidden');
+
+    setTimeout(function() {
+        notification.classList.add('hidden');
+    }, 2000);  //notif will disappear in 2 sec
 }
