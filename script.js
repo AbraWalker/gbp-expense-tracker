@@ -27,8 +27,17 @@ expenseForm.addEventListener('submit', function(event) {
 });
 
 function addTransaction(description, amount, category) {
-    const transactionRow = document.createElement('tr');
+    const transaction = {
+        description: description,
+        amount: amount,
+        category: category
+    };
 
+    let transactions = JSON.parse(localStorage.getItem('transactions')) || [];
+    transactions.push(transaction);
+    localStorage.setItem('transactions', JSON.stringify(transactions));
+
+    const transactionRow = document.createElement('tr');
     transactionRow.innerHTML = `
     <td>${description}</td>
     <td>${category}</td>
@@ -39,6 +48,7 @@ function addTransaction(description, amount, category) {
     transactionList.appendChild(transactionRow);
     transactionRow.querySelector('.delete-btn').addEventListener('click', function() {
         transactionRow.remove();
+        removeTransaction(transaction); //delete transaction from local storage
         updateSummary();
     });
 }
@@ -75,6 +85,30 @@ function updateSummary() { //update the summary section with total values
         balance.classList.add('negative');
     }
 }
+
+function removeTransaction(transactionToRemove) {
+    let transactions = JSON.parse(localStorage.getItem('transactions')) || [];
+
+    transactions = transactions.filter(function(transaction) {
+        return !(transaction.description === transactionToRemove.description &&
+                 transaction.amount === transactionToRemove.amount &&
+                 transaction.category === transactionToRemove.category);
+    });
+
+    localStorage.setItem('transactions', JSON.stringify(transactions));
+}
+
+function loadTransactions() { //retrieve saved transactions from local storage
+    const transactions = JSON.parse(localStorage.getItem('transactions')) || [];
+
+    transactions.forEach(function(transaction) {
+        addTransaction(transaction.description, transaction.amount, transaction.category);
+    });
+
+    updateSummary();
+}
+
+window.addEventListener('load', loadTransactions);
 
 function clearInputs() {
     expenseInput.value = '';
